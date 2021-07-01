@@ -1,58 +1,138 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+<div>
+  <div class="hello ">
+   <div>
+    
+  
+    <header class="bg-white shadow">
+      <div class="">
+        <h1 class="">
+          To do List
+        </h1>
+      </div>
+    </header>
+
+    <main>
+
+        <div class="container">
+        <div class="row">
+        <div class="col-md-10 mx-4">
+        <table class="table ">
+          <thead>
+            <tr>
+              <th>CheckMark Done</th>
+              <th>Task Name</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(task, index) in tasks" :key="index">
+            <td>
+                <input type="checkbox" v-model="task.done">
+              </td>
+
+                  <td class="">
+                  <div class="">
+
+                    <div class="">
+                      <div class="">
+                        {{ task.title }}
+                      </div>
+
+                    </div>
+                  </div>
+                </td>
+
+
+                <td class="">
+                  <a href="#" class=""  @click="editTask(task)">Edit</a>
+                </td>
+               <td class="">
+                  <a href="#" class=""   @click="onDeleteTask(taks)">Delete</a>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+                <div class="panel panel-default col-md-10 mx-4">
+          <h2 class="text-center">Add A new Task</h2>
+          <form v-on:submit="addTask" class="app-form">
+              <input type="text" class="form-control" v-model="tasks.title">
+              <input type="submit" value="Add" class="btn btn-block btn-primary">
+          </form>
+        </div>
+
+
+        </div>
+
+    </main>
+
+
   </div>
+  </div>
+</div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: "Tasks",
+  
+   data() {
+    return {
+      tasks: [],
+
+      message: '',
+      showMessage: false,
+
+      /*addStudentForm: {
+        firstname: '',
+        lastname: '',
+        gender: '',
+        age: '',
+        paid: [],
+      },
+      
+      editForm: {
+        id: '',
+        firstname: '',
+        lastname: '',
+        gender: '',
+        age: '',
+        paid: [],
+      },
+     */
+    };
+  },
+  methods: {
+    getTasks() {
+      const path = 'http://localhost:5000/tasks';
+      axios.get(path)
+        .then((res) => {
+          this.tasks = res.data.tasks;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
+    }
+  
+},
+created() {
+    this.getTasks();
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+
+
 a {
   color: #42b983;
 }
 </style>
+
