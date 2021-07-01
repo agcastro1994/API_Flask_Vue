@@ -5,38 +5,50 @@
     
   
     <header class="bg-white shadow">
-      <div class="">
-        <h1 class="">
-          To do List
-        </h1>
-      </div>
+
     </header>
 
-    <main>
+        <main>
+      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
 
-        <div class="container">
-        <div class="row">
-        <div class="col-md-10 mx-4">
-        <table class="table ">
-          <thead>
-            <tr>
-              <th>CheckMark Done</th>
-              <th>Task Name</th>
-              <th>Edit</th>
-              <th>Delete</th>
+        <div class="px-4 py-6 sm:px-0">
+          <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-green-100">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                CheckMark Done
+                </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Task Name
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Edit
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Delete
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="(task, index) in tasks" :key="index">
-            <td>
-                <input type="checkbox" v-model="task.done">
-              </td>
+             <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
+                        <input type="checkbox" v-model="task.done">
+                       </div>
+                 </div>
+                 </div>
+                </td>
 
-                  <td class="">
-                  <div class="">
-
-                    <div class="">
-                      <div class="">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
                         {{ task.title }}
                       </div>
 
@@ -45,26 +57,31 @@
                 </td>
 
 
-                <td class="">
-                  <a href="#" class=""  @click="editTask(task)">Edit</a>
+                <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
+                <div class="flex items-center">
+                <div class="ml-0">
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900"  @click="editTask(student)">Edit</a>
+                  </div>
+                  </div>
                 </td>
-               <td class="">
-                  <a href="#" class=""   @click="onDeleteTask(taks)">Delete</a>
+               <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
+               <div class="flex items-center">
+                <div class="ml-0">
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900"   @click="onDeleteTask(student)">Delete</a>
+                 </div>
+                  </div>
                 </td>
               </tr>
           </tbody>
         </table>
         </div>
         </div>
-                <div class="panel panel-default col-md-10 mx-4">
-          <h2 class="text-center">Add A new Task</h2>
-          <form v-on:submit="addTask" class="app-form">
-              <input type="text" class="form-control" v-model="tasks.title">
-              <input type="submit" value="Add" class="btn btn-block btn-primary">
-          </form>
+
+
+
         </div>
-
-
+        </div>
+        </div>
         </div>
 
     </main>
@@ -127,7 +144,8 @@ created() {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
 <style scoped>
 
 

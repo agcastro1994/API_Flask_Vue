@@ -22,8 +22,6 @@ app.config['ERROR_404_HELP'] = False
 if __name__ == '__main__':
     app.debug = True
 
-#Flask REST Api code
-# api = Api(app)
 db.init_app(app)
 
 
