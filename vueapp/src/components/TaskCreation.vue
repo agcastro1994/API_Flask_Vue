@@ -55,10 +55,12 @@ import axios from "axios";
         methods:{
             async close_modal() {
                 const path = 'http://localhost:5000/tasks';
+                if (this.title != " ") {
                  const res = await axios.post(path, {"title": this.title});
-
+                 this.result = res.status;
+                   }
                   this.$emit("update")
-                this.result = res.status;
+
                 this.$emit("close")
             }
 
