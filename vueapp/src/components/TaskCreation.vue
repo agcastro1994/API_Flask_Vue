@@ -21,10 +21,10 @@
 
 
                     <div class="mt-6">
-                        <button type="submit"   class="flex items-center justify-center w-full px-6 py-2 text-sm font-medium text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:bg-blue-400 focus:outline-none">
+                      <a href="#">
+                        <span class="m-2  " @click="close_modal()">Add new Task</span>
+                        </a>
 
-                        <span class="m-2  text-white" @click="close_modal()">Add new Task</span>
-                    </button>
                     </div>
 
 
@@ -46,7 +46,7 @@ import axios from "axios";
         },
         data() {
             return{
-                 title: ""
+                 title: " "
             }
         },
 
@@ -55,7 +55,9 @@ import axios from "axios";
         methods:{
             async close_modal() {
                 const path = 'http://localhost:5000/tasks';
-                 const res = await axios.post(path, {'title':"banana"});
+                 const res = await axios.post(path, {"title": this.title});
+
+                  this.$emit("update")
                 this.result = res.status;
                 this.$emit("close")
             }

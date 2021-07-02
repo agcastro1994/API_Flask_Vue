@@ -5,11 +5,11 @@
             Add Task
         </button>
 
-    <TaskCreation :show="showModal"  @close="showModal=false"> </TaskCreation>
+    <TaskCreation :show="showModal"  @close="showModal=false" @update="$refs.HelloWorld.getTasks()"> </TaskCreation>
     </div>
 
     <div class="col-12">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld msg="Welcome to Your Vue.js App" ref="HelloWorld"/>
     </div>
 
 

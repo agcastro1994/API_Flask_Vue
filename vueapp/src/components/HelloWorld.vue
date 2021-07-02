@@ -60,14 +60,14 @@
                 <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
                 <div class="flex items-center">
                 <div class="ml-0">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"  @click="editTask(student)">Edit</a>
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900"  @click="editTask(task.id)">Edit</a>
                   </div>
                   </div>
                 </td>
                <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
                <div class="flex items-center">
                 <div class="ml-0">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"   @click="onDeleteTask(student)">Delete</a>
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900"   @click="onDeleteTask(task.id)">Delete</a>
                  </div>
                   </div>
                 </td>
@@ -136,7 +136,9 @@ export default {
           console.error(error);
         });
     }
-  
+
+
+
 },
 created() {
     this.getTasks();

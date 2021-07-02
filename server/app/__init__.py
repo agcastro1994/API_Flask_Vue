@@ -113,12 +113,15 @@ def deleteATask(id):
 @app.route('/')
 @app.route('/tasks', methods=['GET', 'POST'])
 def taskFunction():
+
     if request.method == 'GET':
         return get_tasks()
     elif request.method == 'POST':
-        title = request.args.get('title', '')
-        return makeANewtask(title)
+        #title = request.form.get('title', '')
+        title = request.get_json()
+        print(request.get_data())
 
+        return makeANewtask(title['title'])
 
 
 @app.route('/task/<int:id>', methods=['GET', 'PUT', 'DELETE'])
@@ -128,8 +131,8 @@ def taskFunctionId(id):
 
     # revisar ...no esta funcionando
     elif request.method == 'PUT':
-        title = request.args.get('title', '')
-        finished = request.args.get('finished', '')
+        title = request.get_json('title')
+        finished = request.get_json('finished')
         return updateTask(id, title, finished)
 
     elif request.method == 'DELETE':
