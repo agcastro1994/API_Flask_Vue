@@ -10,6 +10,14 @@
 
         <main>
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div class="col-12">
+         <button @click="showModal = true" class="bg-transparent border border-green-500 hover:border-green-500 text-gray-700 hover:text-green-500 font-bold py-2 px-4 rounded-md">
+            Add Task
+        </button>
+
+        <TaskCreation :show="showModal"  @close="showModal=false" @update="getTasks()"> </TaskCreation>
+
+    </div>
 
         <div class="px-4 py-6 sm:px-0">
           <div class="flex flex-col">
@@ -34,44 +42,9 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(task, index) in tasks" :key="index">
-             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        <input type="checkbox" v-model="task.done">
-                       </div>
-                 </div>
-                 </div>
-                </td>
 
-                  <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        {{ task.title }}
-                      </div>
+            <TaskItem v-for="(task, index) in tasks" :key="index" :task="task" @update="getTasks()"></TaskItem>
 
-                    </div>
-                  </div>
-                </td>
-
-
-                <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
-                <div class="flex items-center">
-                <div class="ml-0">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"  @click="editTask(task.id)">Edit</a>
-                  </div>
-                  </div>
-                </td>
-               <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
-               <div class="flex items-center">
-                <div class="ml-0">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"   @click="onDeleteTask(task.id)">Delete</a>
-                 </div>
-                  </div>
-                </td>
-              </tr>
           </tbody>
         </table>
         </div>
@@ -95,33 +68,28 @@
 <script>
 import axios from "axios";
 
+import TaskCreation from "./TaskCreation.vue"
+import TaskItem from "./TaskItem.vue"
+
 export default {
   name: "Tasks",
-  
+
+    components: {
+    TaskCreation,
+    TaskItem
+
+
+  },
+
    data() {
     return {
       tasks: [],
-
       message: '',
       showMessage: false,
+      showModal: false,
 
-      /*addStudentForm: {
-        firstname: '',
-        lastname: '',
-        gender: '',
-        age: '',
-        paid: [],
-      },
-      
-      editForm: {
-        id: '',
-        firstname: '',
-        lastname: '',
-        gender: '',
-        age: '',
-        paid: [],
-      },
-     */
+
+
     };
   },
   methods: {
@@ -132,10 +100,12 @@ export default {
           this.tasks = res.data.tasks;
         })
         .catch((error) => {
-          // eslint-disable-next-line
+
           console.error(error);
         });
-    }
+    },
+
+
 
 
 

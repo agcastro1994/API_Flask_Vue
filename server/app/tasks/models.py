@@ -17,6 +17,7 @@ class Task(db.Model, BaseModelMixin):
     @property
     def serialize(self):
         return {
+            'id': self.id,
             'title': self.title,
             'finished': self.finished
         }

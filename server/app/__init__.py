@@ -93,12 +93,10 @@ def makeANewtask(title):
     return jsonify(Task=task.serialize)
 
 
-def updateTask(id, title, finished):
-    task = Task.query.filter_by(id=id).one()
-    if title:
-        task.title = title
-    if finished:
-        task.finished = finished
+def updateTask(id, edit_info):
+    task = Task.query.get(id)
+    for title, finish in edit_info.items():
+        setattr(task, title, finish)
     task.save()
     return 'Updated a Task with id %s' % id
 
@@ -119,7 +117,6 @@ def taskFunction():
     elif request.method == 'POST':
         #title = request.form.get('title', '')
         title = request.get_json()
-        print(request.get_data())
 
         return makeANewtask(title['title'])
 
@@ -131,9 +128,8 @@ def taskFunctionId(id):
 
     # revisar ...no esta funcionando
     elif request.method == 'PUT':
-        title = request.get_json('title')
-        finished = request.get_json('finished')
-        return updateTask(id, title, finished)
+        edit_info = request.get_json()
+        return updateTask(id, edit_info)
 
     elif request.method == 'DELETE':
         return deleteATask(id)
