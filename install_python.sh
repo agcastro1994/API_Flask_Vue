@@ -44,6 +44,8 @@ case $os in
 esac
 $packageManager install -y $packages; #installs the packages required
 pip install flask --user; #installs flask
+cd server
+pip install -r requirements.txt
 npm install -g @vue/cli; #install vue
 #If destination dir does not exists we create it with mkdir
 if [ -d $dstDir ]; then
