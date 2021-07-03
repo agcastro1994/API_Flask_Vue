@@ -1,6 +1,7 @@
 <script>
 
 import TaskEdition from "./TaskEdition.vue"
+import axios from "axios"
 
   export default {
     props: ['task'],
@@ -18,6 +19,12 @@ import TaskEdition from "./TaskEdition.vue"
      methods:{
             reload() {
         this.$emit("update")
+        },
+        async deleteTask(id){
+             const res = await axios.delete('http://localhost:5000/task/' + id);
+             this.result = res.status;
+             this.reload()
+
         }
         }
   }
@@ -63,7 +70,9 @@ import TaskEdition from "./TaskEdition.vue"
                <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
                <div class="flex items-center">
                 <div class="ml-0">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"   @click="onDeleteTask(task.id)">Delete</a>
+                 <button @click="deleteTask(task.id)"  class="bg-transparent border border-green-500 hover:border-green-500 text-gray-700 hover:text-green-500 font-bold py-2 px-4 rounded-md">
+                    Delete
+                  </button>
                  </div>
                   </div>
                 </td>

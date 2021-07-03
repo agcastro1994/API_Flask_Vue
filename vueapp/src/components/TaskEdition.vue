@@ -9,7 +9,7 @@
             <div class="modal-content py-4 text-left px-6">
 
                 <div class="flex justify-center items-center pb-3">
-                    <p class="text-2xl font-bold text-center">Editando la tarea con id: {{show[1].id}}</p>
+                    <p class="text-2xl font-bold text-center">Editing your task </p>
                 </div>
 
                 <form class="mt-6">
@@ -42,7 +42,7 @@ import axios from "axios";
         name: "TaskEdition",
 
         props: {
-            show: Boolean
+            show: Array
         },
         data() {
             return{
