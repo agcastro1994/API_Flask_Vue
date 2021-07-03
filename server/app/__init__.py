@@ -1,4 +1,4 @@
-from flask import Flask, request,render_template
+from flask import Flask, request
 from flask import jsonify
 from flask_cors import CORS
 import urllib.parse
@@ -11,7 +11,8 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 params = urllib.parse.quote_plus("DRIVER={SQL Server};SERVER=testing-azure.database.windows.net;DATABASE=toDoApp;UID=agcastro1994;PWD=art041,,,")
 
 SECRET_KEY = '123447a47f563e90fe2db0f56b1b17be62378e31b7cfd3adc776c59ca4c75e2fc512c15f69bb38307d11d5d17a41a7936789'
-#PROPAGATE_EXCEPTIONS = True
+PROPAGATE_EXCEPTIONS = True
+
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -29,70 +30,30 @@ db.init_app(app)
 def create_table():
     db.create_all()
 
-#
-# class TaskList(Resource):
-#     def get(self):
-#         tasks = Task.query.all()
-#         return {'Tasks': list(x.json() for x in tasks)}
-#
-#     def post(self):
-#         data = request.get_json()
-#         task = Task(data['title'])
-#         task.save()
-#         return task.json(), 201
-#
-#
-# class aTask(Resource):
-#     def get(self, title):
-#         task = Task.query.filter_by(title=title).first()
-#         if task:
-#             return task.json()
-#         return {'message': 'task not found'}, 404
-#
-#     def put(self, title):
-#         data = request.get_json()
-#
-#         task = Task.query.filter_by(title=title).first()
-#
-#         if task:
-#             task.finished = data["finished"]
-#
-#         else:
-#             task = Task(title=title, **data)
-#
-#         task.save()
-#
-#         return task.json()
-#
-#     def delete(self, title):
-#         task = Task.query.filter_by(title=title).first()
-#         if task:
-#             task.delete()
-#             return {'message':'Deleted'}
-#         else:
-#             return {'message': 'task not found'}, 404
-#
-#
-# api.add_resource(TaskList, '/tasks')
-# api.add_resource(aTask, '/task/<string:title>')
+# Funciones de CRUD API
 
 
+# Trae todas las tareas y convierte la lista en JSON
 def get_tasks():
     tasks = Task.query.all()
     return jsonify(tasks=[t.serialize for t in tasks])
 
+
+# Trae una tarea y la  convierte en JSON
 
 def get_task(task_id):
     task = Task.query.filter_by(id=task_id).one()
     return jsonify(task=task.serialize)
 
 
+# Crea una tarea con el titulo que se recibe desde el FrontEnd
 def makeANewtask(title):
     task = Task(title=title)
     task.save()
     return jsonify(Task=task.serialize)
 
 
+# Actualiza una tarea con el titulo y el estado que se recibe desde el FrontEnd
 def updateTask(id, edit_info):
     task = Task.query.get(id)
     for title, finish in edit_info.items():
@@ -100,7 +61,7 @@ def updateTask(id, edit_info):
     task.save()
     return 'Updated a Task with id %s' % id
 
-
+# Borra una tarea identificandola con su id
 def deleteATask(id):
     task = Task.query.filter_by(id=id).one()
     task.delete()
@@ -111,11 +72,12 @@ def deleteATask(id):
 @app.route('/')
 @app.route('/tasks', methods=['GET', 'POST'])
 def taskFunction():
-
+    # Recibe la solicitud GET para mostrar toda la lista
     if request.method == 'GET':
         return get_tasks()
+    # Si la solicitud es un post, toma el titulo e invoca al creador de tareas
     elif request.method == 'POST':
-        #title = request.form.get('title', '')
+
         title = request.get_json()
 
         return makeANewtask(title['title'])
@@ -123,14 +85,15 @@ def taskFunction():
 
 @app.route('/task/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def taskFunctionId(id):
+    # Recibe la solicitud GET para mostrar una tarea
+
     if request.method == 'GET':
         return get_task(id)
-
-    # revisar ...no esta funcionando
+    # Si  la solicitud es un put, toma los valores recibidos e invoca al editor
     elif request.method == 'PUT':
         edit_info = request.get_json()
         return updateTask(id, edit_info)
-
+    # Si la solicitud es delete, invoca al eliminador de tareas
     elif request.method == 'DELETE':
         return deleteATask(id)
 

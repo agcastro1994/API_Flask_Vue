@@ -25,8 +25,15 @@ import axios from "axios"
              this.result = res.status;
              this.reload()
 
-        }
-        }
+        },
+
+        async setFinished(task) {
+               const path = 'http://localhost:5000/task/'+task.id;
+               const res = await axios.put(path, {"title": task.title, "finished": !(task.finished)});
+               this.result = res.status;
+               
+        },
+  }
   }
 </script>
 
@@ -37,7 +44,8 @@ import axios from "axios"
                 <div class="flex items-center">
                 <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                        <input type="checkbox" v-model="task.done">
+                        <input v-if="task.finished == 0" @click="setFinished(task)" type="checkbox" v-model="task.done">
+                        <input v-if="task.finished == 1" @click="setFinished(task)" type="checkbox" v-model="task.done" checked>
                        </div>
                  </div>
                  </div>
